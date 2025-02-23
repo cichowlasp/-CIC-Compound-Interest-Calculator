@@ -36,7 +36,7 @@ export const translations = {
 		yearsOfGrowth: 'Okres inwestycji (lata)',
 		rateOfReturn: 'Stopa zwrotu (%)',
 		compoundFrequency: 'Częstotliwość kapitalizacji',
-		contribution: 'Wpłata dodatkowa',
+		contribution: 'Wpłata',
 		frequency: 'Częstotliwość',
 		totalBalance: 'Wartość końcowa',
 		totalPrincipal: 'Suma wpłat',

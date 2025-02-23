@@ -50,6 +50,12 @@ const getStoredState = (): CalculatorState | null => {
 // Update the component's initial state
 
 export default function CompoundCalculator() {
+	const [isInitialFocused, setIsInitialFocused] = React.useState(false);
+	const [isYearsFocused, setIsYearsFocused] = React.useState(false);
+	const [isRateFocused, setIsRateFocused] = React.useState(false);
+	const [isContributionFocused, setIsContributionFocused] =
+		React.useState(false);
+
 	const [initialDeposit, setInitialDeposit] = React.useState(
 		() => getStoredState()?.initialDeposit ?? 5000
 	);
@@ -145,11 +151,17 @@ export default function CompoundCalculator() {
 		let totalPrincipal = p;
 
 		for (let year = 0; year <= t; year++) {
-			const compoundFactor = Math.pow(1 + r / n, n * year);
-			const contributionFactor = (compoundFactor - 1) / (r / n);
+			let futureValue;
+			if (r === 0) {
+				// When rate is 0, simply add up initial deposit and contributions
+				futureValue = p + pmt * year;
+			} else {
+				const compoundFactor = Math.pow(1 + r / n, n * year);
+				const contributionFactor = (compoundFactor - 1) / (r / n);
+				futureValue =
+					p * compoundFactor + (pmt / n) * contributionFactor;
+			}
 
-			const futureValue =
-				p * compoundFactor + (pmt / n) * contributionFactor;
 			totalPrincipal += year > 0 ? pmt : 0;
 
 			data.push({
@@ -226,14 +238,17 @@ export default function CompoundCalculator() {
 	return (
 		<>
 			<div className='fixed bottom-4 right-4 z-50'>
-				<MobileSettings
-					currency={currency}
-					setCurrency={setCurrency}
-					language={language}
-					setLanguage={setLanguage}
-					theme={theme}
-					setTheme={setTheme}
-				/>
+				<div className='relative'>
+					<div className='absolute -inset-1 bg-gradient-to-r from-[#2DD4BF] to-[#22d3ee] rounded-full blur-sm opacity-75'></div>
+					<MobileSettings
+						currency={currency}
+						setCurrency={setCurrency}
+						language={language}
+						setLanguage={setLanguage}
+						theme={theme}
+						setTheme={setTheme}
+					/>
+				</div>
 			</div>
 			<div className='container px-3 py-3 sm:p-6 w-screen h-dvh flex bg-gradient-to-br from-background via-muted/5 to-background'>
 				<div className='w-screen h-full flex flex-col gap-4 lg:flex-row md:flex'>
@@ -260,13 +275,30 @@ export default function CompoundCalculator() {
 											type='number'
 											min='0'
 											step='100'
-											value={initialDeposit}
+											value={
+												isInitialFocused &&
+												initialDeposit === 0
+													? ''
+													: initialDeposit
+											}
 											className='pl-12'
+											onFocus={() =>
+												setIsInitialFocused(true)
+											}
+											onBlur={() =>
+												setIsInitialFocused(false)
+											}
 											onChange={(e) => {
-												const value = Math.max(
-													0,
-													Number(e.target.value)
-												);
+												const value =
+													e.target.value === ''
+														? 0
+														: Math.max(
+																0,
+																Number(
+																	e.target
+																		.value
+																)
+														  );
 												setInitialDeposit(value);
 											}}
 										/>
@@ -282,15 +314,27 @@ export default function CompoundCalculator() {
 										type='number'
 										min='1'
 										max='100'
-										value={years}
+										value={
+											isYearsFocused && years === 0
+												? ''
+												: years
+										}
+										onFocus={() => setIsYearsFocused(true)}
+										onBlur={() => setIsYearsFocused(false)}
 										onChange={(e) => {
-											const value = Math.min(
-												100,
-												Math.max(
-													1,
-													Number(e.target.value)
-												)
-											);
+											const value =
+												e.target.value === ''
+													? 0
+													: Math.min(
+															100,
+															Math.max(
+																0,
+																Number(
+																	e.target
+																		.value
+																)
+															)
+													  );
 											setYears(value);
 										}}
 									/>
@@ -307,15 +351,31 @@ export default function CompoundCalculator() {
 											id='rate'
 											type='number'
 											min='0'
-											value={rate}
+											value={
+												isRateFocused && rate === 0
+													? ''
+													: rate
+											}
+											onFocus={() =>
+												setIsRateFocused(true)
+											}
+											onBlur={() =>
+												setIsRateFocused(false)
+											}
 											onChange={(e) => {
-												const value = Math.min(
-													100,
-													Math.max(
-														0,
-														Number(e.target.value)
-													)
-												);
+												const value =
+													e.target.value === ''
+														? 0
+														: Math.min(
+																100,
+																Math.max(
+																	0,
+																	Number(
+																		e.target
+																			.value
+																	)
+																)
+														  );
 												setRate(value);
 											}}
 										/>
@@ -367,13 +427,30 @@ export default function CompoundCalculator() {
 											type='number'
 											min='0'
 											step='100'
-											value={contributionAmount}
+											value={
+												isContributionFocused &&
+												contributionAmount === 0
+													? ''
+													: contributionAmount
+											}
 											className='pl-12'
+											onFocus={() =>
+												setIsContributionFocused(true)
+											}
+											onBlur={() =>
+												setIsContributionFocused(false)
+											}
 											onChange={(e) => {
-												const value = Math.max(
-													0,
-													Number(e.target.value)
-												);
+												const value =
+													e.target.value === ''
+														? 0
+														: Math.max(
+																0,
+																Number(
+																	e.target
+																		.value
+																)
+														  );
 												setContributionAmount(value);
 											}}
 										/>
@@ -503,6 +580,7 @@ export default function CompoundCalculator() {
 										strokeWidth={2}
 										fill={`url(#${chartConfig.totalPrincipal.gradientId})`}
 										fillOpacity={1}
+										animationDuration={250}
 									/>
 									<Area
 										type='monotone'
@@ -514,6 +592,7 @@ export default function CompoundCalculator() {
 										strokeWidth={2}
 										fill={`url(#${chartConfig.totalInterest.gradientId})`}
 										fillOpacity={1}
+										animationDuration={250}
 									/>
 									<ChartTooltip
 										content={
