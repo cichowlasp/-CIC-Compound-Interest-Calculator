@@ -15,8 +15,8 @@ import { Label } from '@/components/ui/label';
 import { ChartContainer, ChartTooltip } from '@/components/ui/chart';
 import { CustomTooltip } from '@/components/ui/custom-tooltip';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
-import { Navbar } from './navbar';
 import { translations } from '@/lib/translations';
+import { MobileSettings } from './mobile-settings';
 
 interface CalculationResult {
 	year: number;
@@ -47,6 +47,7 @@ const getStoredState = (): CalculatorState | null => {
 };
 
 // Update the component's initial state
+
 export default function CompoundCalculator() {
 	const [initialDeposit, setInitialDeposit] = React.useState(
 		() => getStoredState()?.initialDeposit ?? 5000
@@ -202,23 +203,24 @@ export default function CompoundCalculator() {
 
 	return (
 		<>
-			<Navbar
-				currency={currency}
-				onCurrencyChange={setCurrency}
-				language={language}
-				onLanguageChange={setLanguage}
-			/>
-			<div className='mt-16 container mx-auto px-3 py-3 sm:p-6 w-full h-[calc(100vh-65px)] flex bg-gradient-to-br from-background via-muted/5 to-background'>
-				<div className='grid gap-3 sm:gap-6 lg:gap-8 lg:grid-cols-[minmax(320px,1fr)_2fr] w-full h-full'>
+			<div className='fixed bottom-4 right-4 z-50'>
+				<MobileSettings
+					currency={currency}
+					setCurrency={setCurrency}
+					language={language}
+					setLanguage={setLanguage}></MobileSettings>
+			</div>
+			<div className='container px-3 py-3 sm:p-6 w-screen h-dvh flex bg-gradient-to-br from-background via-muted/5 to-background'>
+				<div className='w-screen h-full flex flex-col gap-4 lg:flex-row md:flex'>
 					{/* First container */}
-					<div className='order-1 lg:order-1 backdrop-blur-xl bg-background/80 rounded-2xl border border-muted/20 shadow-[0_0_15px_rgba(0,0,0,0.05)] p-6 h-full overflow-auto'>
-						<div className='pb-3 sm:pb-4 border-b border-muted/10'>
+					<div className='basis-1/2 sm:basis-2/5 lg:basis-1/3 w-full backdrop-blur-xl bg-background/80 rounded-2xl border border-muted/20 shadow-[0_0_15px_rgba(0,0,0,0.05)] p-4 sm:p-6 h-full overflow-hidden'>
+						<div className='pb-3 sm:pb-4 border-b border-muted/10 flex-shrink-0'>
 							<div className='flex items-center gap-2 text-base sm:text-lg font-medium'>
 								<Calculator className='h-4 w-4 sm:h-5 sm:w-5' />
 								{t.investmentDetails}
 							</div>
 						</div>
-						<div className='pt-4 grid gap-3 sm:gap-4'>
+						<div className='pt-4 grid gap-3 sm:gap-4 overflow-y-auto flex-grow'>
 							<div className='grid grid-cols-2 gap-3 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-1'>
 								<div className='grid gap-2'>
 									<Label htmlFor='initial'>
@@ -379,7 +381,7 @@ export default function CompoundCalculator() {
 					</div>
 
 					{/* Second container */}
-					<div className='order-2 lg:order-2 backdrop-blur-xl bg-background/80 rounded-2xl border border-muted/20 shadow-[0_0_15px_rgba(0,0,0,0.05)] p-6 h-full flex flex-col'>
+					<div className='basis-1/2 sm:basis-3/5 lg:basis-2/3 w-full backdrop-blur-xl bg-background/80 rounded-2xl border border-muted/20 shadow-[0_0_15px_rgba(0,0,0,0.05)] p-4 sm:p-6 h-full flex flex-col overflow-hidden'>
 						<div className='pb-2 sm:pb-4 border-b border-muted/10'>
 							<div className='text-center space-y-1'>
 								<div className='text-sm text-muted-foreground font-normal'>
@@ -390,10 +392,10 @@ export default function CompoundCalculator() {
 								</div>
 							</div>
 						</div>
-						<div className='pt-4'>
+						<div className='pt-4 flex-grow flex flex-col min-h-0'>
 							<ChartContainer
 								config={chartConfig}
-								className='h-[200px] md:h-[200px] lg:h-[400px] w-full'>
+								className='flex-grow w-full min-h-0'>
 								<AreaChart
 									data={results}
 									margin={{
@@ -492,12 +494,13 @@ export default function CompoundCalculator() {
 										content={
 											<CustomTooltip
 												formatter={getCurrencySymbol}
+												language={language}
 											/>
 										}
 									/>
 								</AreaChart>
 							</ChartContainer>
-							<div className='mt-2 sm:mt-4 flex flex-row justify-center items-center gap-8 text-xs sm:text-sm'>
+							<div className='mt-2 sm:mt-4 flex flex-row justify-center items-center gap-8 text-xs sm:text-sm flex-shrink-0'>
 								{Object.entries(chartConfig).map(
 									([key, config]) => (
 										<div
