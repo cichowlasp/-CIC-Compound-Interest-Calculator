@@ -75,6 +75,7 @@ export default function CompoundCalculator() {
 	const [theme, setTheme] = React.useState(
 		() => getStoredState()?.theme ?? 'light'
 	);
+	const [isLoading, setIsLoading] = React.useState(true);
 
 	// Add this effect to save state changes
 	React.useEffect(() => {
@@ -90,6 +91,7 @@ export default function CompoundCalculator() {
 			theme,
 		};
 		localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+		setIsLoading(false);
 	}, [
 		initialDeposit,
 		years,
@@ -210,6 +212,16 @@ export default function CompoundCalculator() {
 	// Get final balance safely
 	const finalBalance =
 		results.length > 0 ? results[results.length - 1].balance : 0;
+
+	if (isLoading) {
+		return (
+			<div className='w-screen h-dvh flex items-center justify-center bg-gradient-to-br from-background via-muted/5 to-background'>
+				<div className='animate-pulse'>
+					<Calculator className='h-8 w-8 text-muted-foreground' />
+				</div>
+			</div>
+		);
+	}
 
 	return (
 		<>
