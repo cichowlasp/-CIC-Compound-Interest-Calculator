@@ -8,16 +8,14 @@ interface CustomTooltipProps {
 			year: number;
 		};
 	}>;
+	formatter: (value: number) => string;
 }
 
-export function CustomTooltip({ active, payload }: CustomTooltipProps) {
-	const formatter = new Intl.NumberFormat('en-US', {
-		style: 'currency',
-		currency: 'USD',
-		minimumFractionDigits: 0,
-		maximumFractionDigits: 0,
-	});
-
+export function CustomTooltip({
+	active,
+	payload,
+	formatter,
+}: CustomTooltipProps) {
 	if (active && payload && payload.length) {
 		const totalPrincipal = payload[0].value;
 		const totalInterest = payload[1].value;
@@ -34,19 +32,19 @@ export function CustomTooltip({ active, payload }: CustomTooltipProps) {
 					<div className='flex items-center gap-2'>
 						<div className='h-2 w-2 rounded-full bg-[#FF8B7B]' />
 						<span className='text-sm text-muted-foreground'>
-							Principal: {formatter.format(totalPrincipal)} (
+							Principal: {formatter(totalPrincipal)} (
 							{principalPercent.toFixed(1)}%)
 						</span>
 					</div>
 					<div className='flex items-center gap-2'>
 						<div className='h-2 w-2 rounded-full bg-[#2DD4BF]' />
 						<span className='text-sm text-muted-foreground'>
-							Interest: {formatter.format(totalInterest)} (
+							Interest: {formatter(totalInterest)} (
 							{interestPercent.toFixed(1)}%)
 						</span>
 					</div>
 					<div className='pt-1 text-sm font-medium'>
-						Total: {formatter.format(total)}
+						Total: {formatter(total)}
 					</div>
 				</div>
 			</div>
