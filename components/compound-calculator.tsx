@@ -347,10 +347,14 @@ export default function CompoundCalculator() {
 										{t.rateOfReturn}
 									</Label>
 									<div className='relative'>
+										<span className='absolute left-3 top-[1.1rem] -translate-y-1/2 text-muted-foreground'>
+											%
+										</span>
 										<Input
 											id='rate'
 											type='number'
 											min='0'
+											className='pl-8'
 											value={
 												isRateFocused && rate === 0
 													? ''
@@ -379,9 +383,6 @@ export default function CompoundCalculator() {
 												setRate(value);
 											}}
 										/>
-										<span className='absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground'>
-											%
-										</span>
 									</div>
 								</div>
 
