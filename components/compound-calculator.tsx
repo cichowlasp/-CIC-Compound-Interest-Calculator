@@ -215,12 +215,12 @@ export default function CompoundCalculator() {
 					{/* First container */}
 					<div className='basis-1/2 sm:basis-2/5 lg:basis-1/3 w-full backdrop-blur-xl bg-background/80 rounded-2xl border border-muted/20 shadow-[0_0_15px_rgba(0,0,0,0.05)] p-4 sm:p-6 h-full overflow-hidden'>
 						<div className='pb-3 sm:pb-4 border-b border-muted/10 flex-shrink-0'>
-							<div className='flex items-center gap-2 text-base sm:text-lg font-medium'>
+							<div className='flex items-center gap-2 text-base sm:text-lg font-bold'>
 								<Calculator className='h-4 w-4 sm:h-5 sm:w-5' />
 								{t.investmentDetails}
 							</div>
 						</div>
-						<div className='pt-4 grid gap-3 sm:gap-4 overflow-y-auto flex-grow'>
+						<div className='pt-2 grid gap-3 sm:gap-4 overflow-y-auto px-1 pb-1'>
 							<div className='grid grid-cols-2 gap-3 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-1'>
 								<div className='grid gap-2'>
 									<Label htmlFor='initial'>
