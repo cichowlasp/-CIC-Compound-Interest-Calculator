@@ -76,16 +76,16 @@ export function MobileSettings(props: {
 									</SelectTrigger>
 									<SelectContent>
 										<SelectItem value='USD'>
-											US Dollar
+											{t.usd}
 										</SelectItem>
 										<SelectItem value='EUR'>
-											Euro
+											{t.eur}
 										</SelectItem>
 										<SelectItem value='GBP'>
-											British Pound
+											{t.gbp}
 										</SelectItem>
 										<SelectItem value='PLN'>
-											Polish Złoty
+											{t.pln}
 										</SelectItem>
 									</SelectContent>
 								</Select>
