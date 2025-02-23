@@ -1,6 +1,7 @@
 {
 	"name": "cic",
 	"version": "0.1.0",
+	"homepage": "https://cichowlasp.github.io/-CIC-Compound-Interest-Calculator",
 	"private": true,
 	"scripts": {
 		"dev": "next dev --turbopack",
