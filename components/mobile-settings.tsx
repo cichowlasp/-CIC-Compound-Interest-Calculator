@@ -1,4 +1,5 @@
-import { Settings } from 'lucide-react';
+import { Settings, Moon, Sun } from 'lucide-react';
+
 import {
 	Drawer,
 	DrawerContent,
@@ -21,6 +22,8 @@ export function MobileSettings(props: {
 	setCurrency: (value: string) => void;
 	language: string;
 	setLanguage: (value: string) => void;
+	theme: string;
+	setTheme: (value: string) => void;
 }) {
 	const t = translations[props.language as keyof typeof translations];
 
@@ -38,6 +41,31 @@ export function MobileSettings(props: {
 					</DrawerHeader>
 					<div className='p-4 pb-8'>
 						<div className='grid gap-4'>
+							<div className='grid gap-2'>
+								<Label>{t.theme}</Label>
+								<div className='flex gap-2'>
+									<button
+										onClick={() =>
+											props.setTheme(
+												props.theme === 'dark'
+													? 'light'
+													: 'dark'
+											)
+										}
+										className='w-full flex items-center justify-between px-4 py-2 rounded-md border hover:bg-accent'>
+										<span className='flex items-center gap-2'>
+											{props.theme === 'dark' ? (
+												<Moon className='h-4 w-4' />
+											) : (
+												<Sun className='h-4 w-4' />
+											)}
+											{props.theme === 'dark'
+												? t.dark
+												: t.light}
+										</span>
+									</button>
+								</div>
+							</div>
 							<div className='grid gap-2'>
 								<Label>{t.currency}</Label>
 								<Select

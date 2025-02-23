@@ -35,6 +35,7 @@ interface CalculatorState {
 	contributionFrequency: string;
 	currency: string;
 	language: string;
+	theme: string;
 }
 
 const STORAGE_KEY = 'calculator-state';
@@ -71,6 +72,9 @@ export default function CompoundCalculator() {
 	const [language, setLanguage] = React.useState(
 		() => getStoredState()?.language ?? 'en'
 	);
+	const [theme, setTheme] = React.useState(
+		() => getStoredState()?.theme ?? 'light'
+	);
 
 	// Add this effect to save state changes
 	React.useEffect(() => {
@@ -83,6 +87,7 @@ export default function CompoundCalculator() {
 			contributionFrequency,
 			currency,
 			language,
+			theme,
 		};
 		localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 	}, [
@@ -94,7 +99,12 @@ export default function CompoundCalculator() {
 		contributionFrequency,
 		currency,
 		language,
+		theme,
 	]);
+
+	React.useEffect(() => {
+		document.documentElement.classList.toggle('dark', theme === 'dark');
+	}, [theme]);
 
 	const [results, setResults] = React.useState<CalculationResult[]>([]);
 	const t = translations[language as keyof typeof translations];
@@ -208,7 +218,10 @@ export default function CompoundCalculator() {
 					currency={currency}
 					setCurrency={setCurrency}
 					language={language}
-					setLanguage={setLanguage}></MobileSettings>
+					setLanguage={setLanguage}
+					theme={theme}
+					setTheme={setTheme}
+				/>
 			</div>
 			<div className='container px-3 py-3 sm:p-6 w-screen h-dvh flex bg-gradient-to-br from-background via-muted/5 to-background'>
 				<div className='w-screen h-full flex flex-col gap-4 lg:flex-row md:flex'>
