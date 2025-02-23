@@ -36,14 +36,10 @@ export function SettingsContent({
 								<SelectValue />
 							</SelectTrigger>
 							<SelectContent>
-								<SelectItem value='USD'>US Dollar</SelectItem>
-								<SelectItem value='EUR'>Euro</SelectItem>
-								<SelectItem value='GBP'>
-									British Pound
-								</SelectItem>
-								<SelectItem value='PLN'>
-									Polish Złoty
-								</SelectItem>
+								<SelectItem value='USD'>{t.usd}</SelectItem>
+								<SelectItem value='EUR'>{t.eur}</SelectItem>
+								<SelectItem value='GBP'>{t.gbp}</SelectItem>
+								<SelectItem value='PLN'>{t.pln}</SelectItem>
 							</SelectContent>
 						</Select>
 					</div>

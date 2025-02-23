@@ -29,6 +29,10 @@ export const translations = {
 		green: 'Green',
 		purple: 'Purple',
 		blue: 'Blue',
+		usd: 'US Dollar',
+		eur: 'Euro',
+		pln: 'Polish Złoty',
+		gbp: 'British Pound',
 	},
 	pl: {
 		investmentDetails: 'Szczegóły Inwestycji',
@@ -60,5 +64,9 @@ export const translations = {
 		green: 'Zielony',
 		purple: 'Fioletowy',
 		blue: 'Niebieski',
+		usd: 'Dolar amerykański',
+		eur: 'Euro',
+		pln: 'Polski złoty',
+		gbp: 'Funt brytyjski',
 	},
 } as const;
