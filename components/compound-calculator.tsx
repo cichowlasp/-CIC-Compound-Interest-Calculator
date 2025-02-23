@@ -250,7 +250,7 @@ export default function CompoundCalculator() {
 					/>
 				</div>
 			</div>
-			<div className='container px-3 py-3 sm:p-6 w-screen h-dvh flex bg-gradient-to-br from-background via-muted/5 to-background'>
+			<div className='2xl:max-w-[1920px] 2xl:mx-auto  px-3 py-3 sm:p-6 w-screen h-dvh flex bg-gradient-to-br from-background via-muted/5 to-background'>
 				<div className='w-screen h-full flex flex-col gap-4 lg:flex-row md:flex'>
 					{/* First container */}
 					<div className='min-h-[200px] basis-1/2 sm:basis-2/5 lg:basis-1/3 w-full backdrop-blur-xl bg-background/80 rounded-2xl border border-muted/20 shadow-[0_0_15px_rgba(0,0,0,0.05)] p-4 sm:p-6 h-full overflow-auto'>
