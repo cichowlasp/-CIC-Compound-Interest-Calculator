@@ -73,5 +73,5 @@ Contributions are welcome! Feel free to:
 <div align="center">
   Made with ❤️ by Piotr Cichowlas
   
-  [Live Demo](https://cic-piotr-cichowlas-projects.vercel.app/) | [GitHub](https://github.com/cichowlasp/-CIC-Compound-Interest-Calculator)
+  [Live Demo](https://calculator.cichowlasp.org/) | [GitHub](https://github.com/cichowlasp/-CIC-Compound-Interest-Calculator)
 </div>
