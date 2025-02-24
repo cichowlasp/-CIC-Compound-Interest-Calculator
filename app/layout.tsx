@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-	title: 'CIC',
+	title: 'Compound Calculator Calculator [CIC]',
 	description: 'Compound Calculator Calculator',
 };
 
