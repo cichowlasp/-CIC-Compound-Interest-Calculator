@@ -144,32 +144,87 @@ export default function CompoundCalculator() {
 		const r = rate / 100; // convert percentage to decimal
 		const t = years;
 		const p = initialDeposit;
-		const pmt =
-			contributionAmount * (contributionFrequency === 'monthly' ? 12 : 1);
+		const contributionsPerYear =
+			contributionFrequency === 'monthly' ? 12 : 1;
+		const periodicContribution = contributionAmount;
 
 		const data: CalculationResult[] = [];
-		let totalPrincipal = p;
 
-		for (let year = 0; year <= t; year++) {
-			let futureValue;
-			if (r === 0) {
-				// When rate is 0, simply add up initial deposit and contributions
-				futureValue = p + pmt * year;
-			} else {
-				const compoundFactor = Math.pow(1 + r / n, n * year);
-				const contributionFactor = (compoundFactor - 1) / (r / n);
-				futureValue =
-					p * compoundFactor + (pmt / n) * contributionFactor;
+		// Start with initial values
+		let currentBalance = p;
+		let totalContributions = p;
+
+		// Add initial year (year 0)
+		data.push({
+			year: new Date().getFullYear(),
+			totalPrincipal: totalContributions,
+			balance: currentBalance,
+			totalInterest: 0,
+		});
+
+		// For annual compounding with monthly contributions
+		if (n === 1 && contributionFrequency === 'monthly') {
+			for (let year = 1; year <= t; year++) {
+				// Calculate monthly contributions with interest
+				let yearlyContributionValue = 0;
+
+				for (let month = 0; month < 12; month++) {
+					// Each month's contribution grows for the remaining fraction of the year
+					const monthFraction = (11 - month) / 12;
+					const growthFactor = Math.pow(1 + r, monthFraction);
+					yearlyContributionValue +=
+						periodicContribution * growthFactor;
+				}
+
+				// Apply interest to existing balance
+				currentBalance = currentBalance * (1 + r);
+
+				// Add this year's contributions (after interest calculation)
+				currentBalance += yearlyContributionValue;
+				totalContributions += periodicContribution * 12;
+
+				data.push({
+					year: new Date().getFullYear() + year,
+					totalPrincipal: totalContributions,
+					balance: currentBalance,
+					totalInterest: currentBalance - totalContributions,
+				});
 			}
+		} else {
+			// Standard formula for other compounding frequencies
+			for (let year = 1; year <= t; year++) {
+				if (r === 0) {
+					// When rate is 0, simply add up initial deposit and contributions
+					const yearlyContribution =
+						periodicContribution * contributionsPerYear;
+					currentBalance += yearlyContribution;
+					totalContributions += yearlyContribution;
+				} else {
+					// For each contribution period in this year
+					for (
+						let period = 0;
+						period < contributionsPerYear;
+						period++
+					) {
+						// Apply partial year compounding to the current balance
+						currentBalance *= Math.pow(
+							1 + r / n,
+							n / contributionsPerYear
+						);
 
-			totalPrincipal += year > 0 ? pmt : 0;
+						// Add the periodic contribution
+						currentBalance += periodicContribution;
+						totalContributions += periodicContribution;
+					}
+				}
 
-			data.push({
-				year: new Date().getFullYear() + year,
-				totalPrincipal,
-				balance: futureValue,
-				totalInterest: futureValue - totalPrincipal,
-			});
+				data.push({
+					year: new Date().getFullYear() + year,
+					totalPrincipal: totalContributions,
+					balance: currentBalance,
+					totalInterest: currentBalance - totalContributions,
+				});
+			}
 		}
 
 		setResults(data);
