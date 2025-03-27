@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-	title: 'Compound Calculator Calculator [CIC]',
-	description: 'Compound Calculator Calculator',
+	title: 'Compound Interest Calculator [CIC]',
+	description: 'Compound Interest Calculator',
 };
 
 export default function RootLayout({
