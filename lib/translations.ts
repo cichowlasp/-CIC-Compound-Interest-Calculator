@@ -33,6 +33,7 @@ export const translations = {
 		eur: 'Euro',
 		pln: 'Polish Złoty',
 		gbp: 'British Pound',
+		author: 'Developer & Cybersecurity Specialist',
 	},
 	pl: {
 		investmentDetails: 'Szczegóły Inwestycji',
@@ -68,5 +69,6 @@ export const translations = {
 		eur: 'Euro',
 		pln: 'Polski złoty',
 		gbp: 'Funt brytyjski',
+		author: 'Programista & Specjalista Cyberbezpieczeństwa',
 	},
 } as const;
